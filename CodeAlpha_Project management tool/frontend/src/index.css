@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ========== RESET ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #1A1D23;
+  background-color: #F7F8FA;
+  line-height: 1.5;
+}
+
+/* ========== COLORS ========== */
+:root {
+  --sidebar-bg: #0F1117;
+  --main-bg: #F7F8FA;
+  --card-bg: #FFFFFF;
+  --primary: #5C6BC0;
+  --primary-hover: #4D5BA8;
+  --text-primary: #1A1D23;
+  --text-muted: #6B7280;
+  --text-secondary: #A8ADB8;
+  --border: #E5E7EB;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --priority-low: #9CA3AF;
+  --priority-medium: #3B82F6;
+  --priority-high: #F59E0B;
+  --priority-urgent: #EF4444;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* ========== SCROLLBAR ========== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+}
+
+/* ========== UTILITIES ========== */
+.text-primary { color: var(--text-primary); }
+.text-muted { color: var(--text-muted); }
+.text-secondary { color: var(--text-secondary); }
+.bg-primary { background-color: var(--primary); }
+.border-light { border-color: var(--border); }
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.2s ease-in-out;
+}
+
+/* ========== TRANSITIONS ========== */
+* {
+  transition: background-color 0.2s ease-in-out, 
+              color 0.2s ease-in-out,
+              border-color 0.2s ease-in-out,
+              box-shadow 0.2s ease-in-out;
+}
+
+button, a {
+  transition: all 0.2s ease-in-out;
+}
+
+input, textarea, select {
+  transition: border-color 0.2s ease-in-out, 
+              box-shadow 0.2s ease-in-out;
+}

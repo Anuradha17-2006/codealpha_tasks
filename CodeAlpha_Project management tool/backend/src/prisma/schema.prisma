@@ -1,0 +1,500 @@
+// Prisma schema file for Projex application
+// This file defines the complete database structure with all models and relationships
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["fullTextIndex"]
+}
+
+// ========== ENUMS ==========
+
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  PROJECT_MANAGER
+  TEAM_MEMBER
+  VIEWER
+}
+
+enum ProjectStatus {
+  PLANNING
+  IN_PROGRESS
+  REVIEW
+  COMPLETED
+  ARCHIVED
+}
+
+enum ProjectPriority {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum TaskStatus {
+  BACKLOG
+  TODO
+  IN_PROGRESS
+  REVIEW
+  TESTING
+  DONE
+}
+
+enum TaskPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum NotificationType {
+  TASK_ASSIGNED
+  TASK_COMPLETED
+  MENTIONED_IN_COMMENT
+  DUE_DATE_REMINDER
+  PROJECT_INVITATION
+  BOARD_CREATED
+  FILE_UPLOADED
+  COMMENT_ADDED
+  TASK_UPDATED
+}
+
+enum VisibilityLevel {
+  PRIVATE
+  INTERNAL
+  PUBLIC
+}
+
+// ========== CORE MODELS ==========
+
+model User {
+  id                    String     @id @default(cuid())
+  email                 String     @unique
+  name                  String
+  avatar                String?
+  password              String?
+  role                  UserRole   @default(TEAM_MEMBER)
+  
+  // OAuth
+  googleId              String?    @unique
+  googleAccessToken     String?
+  googleRefreshToken    String?
+  
+  // Profile
+  bio                   String?
+  timezone              String?    @default("UTC")
+  preferredLanguage     String?    @default("en")
+  
+  // Settings
+  emailVerified         Boolean    @default(false)
+  emailVerificationToken String?
+  passwordResetToken    String?
+  passwordResetExpires  DateTime?
+  
+  // Status
+  isActive              Boolean    @default(true)
+  lastLogin             DateTime?
+  
+  // Relations
+  createdAt             DateTime   @default(now())
+  updatedAt             DateTime   @updatedAt
+  deletedAt             DateTime?
+  
+  // Foreign keys
+  sessions              Session[]
+  projectsOwned         Project[]  @relation("projectOwner")
+  projectMembers        ProjectMember[]
+  tasksAssigned         Task[]     @relation("assignee")
+  taskCreated           Task[]     @relation("taskCreator")
+  comments              Comment[]
+  notifications         Notification[]
+  activityLogs          ActivityLog[]
+  
+  @@index([email])
+  @@index([googleId])
+  @@fulltext([name, email])
+}
+
+model Session {
+  id            String     @id @default(cuid())
+  userId        String
+  user          User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  refreshToken  String     @unique
+  userAgent     String?
+  ipAddress     String?
+  
+  expiresAt     DateTime
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+  
+  @@index([userId])
+  @@index([refreshToken])
+}
+
+// ========== PROJECT MODELS ==========
+
+model Project {
+  id                String           @id @default(cuid())
+  name              String
+  description       String?          @db.Text
+  slug              String           @unique
+  coverImage        String?
+  
+  // Metadata
+  status            ProjectStatus    @default(PLANNING)
+  priority          ProjectPriority  @default(MEDIUM)
+  visibility        VisibilityLevel  @default(PRIVATE)
+  
+  // Dates
+  startDate         DateTime?
+  endDate           DateTime?
+  
+  // Progress
+  progress          Int              @default(0)
+  
+  // Owner
+  ownerId           String
+  owner             User             @relation("projectOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  
+  // Relations
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  deletedAt         DateTime?
+  
+  // Foreign keys
+  members           ProjectMember[]
+  boards            Board[]
+  labels            Label[]
+  activityLogs      ActivityLog[]
+  
+  @@index([ownerId])
+  @@index([status])
+  @@index([slug])
+  @@fulltext([name, description])
+}
+
+model ProjectMember {
+  id                String           @id @default(cuid())
+  projectId         String
+  project           Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  userId            String
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  role              UserRole         @default(TEAM_MEMBER)
+  
+  // Invitation tracking
+  invitedAt         DateTime         @default(now())
+  joinedAt          DateTime?
+  invitedBy         String?
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  
+  @@unique([projectId, userId])
+  @@index([projectId])
+  @@index([userId])
+}
+
+// ========== BOARD & TASK MODELS ==========
+
+model Board {
+  id                String           @id @default(cuid())
+  projectId         String
+  project           Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  name              String
+  description       String?
+  order             Int              @default(0)
+  
+  // Settings
+  isTemplate        Boolean          @default(false)
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  deletedAt         DateTime?
+  
+  // Foreign keys
+  columns           Column[]
+  activityLogs      ActivityLog[]
+  
+  @@index([projectId])
+  @@index([isTemplate])
+}
+
+model Column {
+  id                String           @id @default(cuid())
+  boardId           String
+  board             Board            @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  
+  name              String
+  order             Int              @default(0)
+  wipLimit          Int?
+  color             String?
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  
+  // Foreign keys
+  tasks             Task[]
+  
+  @@index([boardId])
+  @@unique([boardId, name])
+}
+
+model Task {
+  id                String           @id @default(cuid())
+  columnId          String
+  column            Column           @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  
+  boardId           String?
+  projectId         String?
+  
+  title             String
+  description       String?          @db.Text
+  
+  // Priority & Status
+  priority          TaskPriority     @default(MEDIUM)
+  status            TaskStatus       @default(TODO)
+  storyPoints       Int?
+  
+  // Assignment & Tracking
+  assigneeId        String?
+  assignee          User?            @relation("assignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  
+  creatorId         String
+  creator           User             @relation("taskCreator", fields: [creatorId], references: [id], onDelete: Cascade)
+  
+  // Dates
+  dueDate           DateTime?
+  startDate         DateTime?
+  completedAt       DateTime?
+  
+  // Time tracking
+  estimatedHours    Int?
+  actualHours       Int?
+  
+  // Order
+  order             Int              @default(0)
+  
+  // Tracking
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  deletedAt         DateTime?
+  
+  // Relations
+  comments          Comment[]
+  attachments       Attachment[]
+  labels            TaskLabel[]
+  dependencies      TaskDependency[] @relation("task")
+  dependsOn         TaskDependency[] @relation("dependency")
+  checklists        Checklist[]
+  activityLogs      ActivityLog[]
+  
+  @@index([columnId])
+  @@index([assigneeId])
+  @@index([status])
+  @@index([priority])
+  @@index([dueDate])
+  @@fulltext([title, description])
+}
+
+model TaskLabel {
+  id                String           @id @default(cuid())
+  taskId            String
+  task              Task             @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  
+  labelId           String
+  label             Label            @relation(fields: [labelId], references: [id], onDelete: Cascade)
+  
+  @@unique([taskId, labelId])
+  @@index([taskId])
+  @@index([labelId])
+}
+
+model Label {
+  id                String           @id @default(cuid())
+  projectId         String
+  project           Project          @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  
+  name              String
+  color             String           @default("#5C6BC0")
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  
+  // Relations
+  tasks             TaskLabel[]
+  
+  @@unique([projectId, name])
+  @@index([projectId])
+}
+
+model TaskDependency {
+  id                String           @id @default(cuid())
+  taskId            String
+  task              Task             @relation("task", fields: [taskId], references: [id], onDelete: Cascade)
+  
+  dependencyId      String
+  dependency        Task             @relation("dependency", fields: [dependencyId], references: [id], onDelete: Cascade)
+  
+  dependencyType    String           @default("BLOCKS") // BLOCKS, BLOCKED_BY, RELATES_TO
+  
+  @@unique([taskId, dependencyId])
+  @@index([taskId])
+  @@index([dependencyId])
+}
+
+model Checklist {
+  id                String           @id @default(cuid())
+  taskId            String
+  task              Task             @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  
+  title             String
+  isCompleted       Boolean          @default(false)
+  order             Int              @default(0)
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  
+  @@index([taskId])
+}
+
+// ========== COMMENT & ATTACHMENT MODELS ==========
+
+model Comment {
+  id                String           @id @default(cuid())
+  taskId            String
+  task              Task             @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  
+  userId            String
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  content           String           @db.Text
+  
+  // Mentions
+  mentions          String?          // JSON array of user IDs
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  deletedAt         DateTime?
+  
+  // Relations
+  attachments       Attachment[]
+  
+  @@index([taskId])
+  @@index([userId])
+}
+
+model Attachment {
+  id                String           @id @default(cuid())
+  taskId            String?
+  task              Task?            @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  
+  commentId         String?
+  comment           Comment?         @relation(fields: [commentId], references: [id], onDelete: SetNull)
+  
+  filename          String
+  mimeType          String
+  size              Int
+  url               String
+  
+  uploadedBy        String
+  
+  createdAt         DateTime         @default(now())
+  
+  @@index([taskId])
+  @@index([commentId])
+}
+
+// ========== NOTIFICATION MODELS ==========
+
+model Notification {
+  id                String           @id @default(cuid())
+  userId            String
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  type              NotificationType
+  title             String
+  message           String           @db.Text
+  
+  // Related entity
+  relatedTaskId     String?
+  relatedProjectId  String?
+  relatedUserId     String?
+  
+  // Status
+  isRead            Boolean          @default(false)
+  readAt            DateTime?
+  
+  // Delivery
+  emailSent         Boolean          @default(false)
+  pushSent          Boolean          @default(false)
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  
+  @@index([userId])
+  @@index([isRead])
+  @@index([type])
+  @@index([createdAt])
+}
+
+// ========== ACTIVITY & AUDIT MODELS ==========
+
+model ActivityLog {
+  id                String           @id @default(cuid())
+  userId            String
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  projectId         String?
+  project           Project?         @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  
+  boardId           String?
+  board             Board?           @relation(fields: [boardId], references: [id], onDelete: SetNull)
+  
+  taskId            String?
+  task              Task?            @relation(fields: [taskId], references: [id], onDelete: SetNull)
+  
+  action            String           // Created, Updated, Deleted, Moved, Assigned, etc
+  entityType        String           // Project, Task, Board, etc
+  entityId          String
+  
+  changes           Json?          @db.Json // JSON object of changes
+  
+  createdAt         DateTime         @default(now())
+  
+  @@index([userId])
+  @@index([projectId])
+  @@index([taskId])
+  @@index([action])
+  @@index([createdAt])
+}
+
+// ========== PREFERENCES & SETTINGS ==========
+
+model UserPreference {
+  id                String           @id @default(cuid())
+  userId            String           @unique
+  
+  // Notification preferences
+  emailNotifications       Boolean   @default(true)
+  pushNotifications        Boolean   @default(true)
+  slackIntegration        Boolean   @default(false)
+  
+  // UI preferences
+  theme              String          @default("light") // light, dark, auto
+  sidebarCollapsed   Boolean         @default(false)
+  
+  // Workspace
+  defaultProjectView String         @default("grid") // grid, list
+  
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+}

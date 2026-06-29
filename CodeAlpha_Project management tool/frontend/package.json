@@ -1,0 +1,58 @@
+{
+  "name": "projex-frontend",
+  "version": "1.0.0",
+  "description": "Projex - Project Management Platform Frontend",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.tsx",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css}\"",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^6.20.0",
+    "zustand": "^4.4.7",
+    "@tanstack/react-query": "^5.28.0",
+    "axios": "^1.6.5",
+    "socket.io-client": "^4.7.2",
+    "react-hook-form": "^7.50.0",
+    "zod": "^3.22.4",
+    "@hookform/resolvers": "^3.3.4",
+    "tailwindcss": "^3.4.1",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^2.3.0",
+    "date-fns": "^2.30.0",
+    "lucide-react": "^0.465.0",
+    "recharts": "^2.10.3",
+    "dompurify": "^3.0.6",
+    "js-cookie": "^3.0.5"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/dompurify": "^3.0.5",
+    "@types/js-cookie": "^3.0.6",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32",
+    "terser": "^5.29.1",
+    "vite": "^5.0.8",
+    "typescript": "^5.3.3",
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@typescript-eslint/parser": "^6.17.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react": "^7.33.2",
+    "prettier": "^3.1.1",
+    "vitest": "^1.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

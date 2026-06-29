@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime
+uploads/
+temp/
+*.pid
+*.pid.lock
+
+# Database
+mysql_data/
+redis_data/
+
+# Build
+dist/
+build/
+.next/
+
+# Testing
+.nyc_output/
+coverage/
+
+# Docker
+.dockerignore
+.docker/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Private
+config/secrets.json

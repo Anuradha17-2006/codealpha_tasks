@@ -1,0 +1,148 @@
+/* Notifications page styles */
+
+.notifications-page {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.notifications-header {
+    background: var(--white);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.notifications-header h1 {
+    margin: 0 0 15px 0;
+}
+
+.notification-filters {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--gray-300);
+    background: var(--white);
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: var(--transition);
+}
+
+.filter-btn:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.filter-btn.active {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+}
+
+/* Notifications List */
+.notifications-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.notification-item {
+    background: var(--white);
+    padding: 15px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.notification-item:hover {
+    box-shadow: var(--shadow-md);
+}
+
+.notification-item.unread {
+    background: var(--light-color);
+    border-left: 4px solid var(--primary-color);
+}
+
+.notification-icon {
+    font-size: 24px;
+    min-width: 30px;
+    text-align: center;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-content p {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.notification-time {
+    display: block;
+    font-size: 12px;
+    color: var(--gray-500);
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    color: var(--gray-500);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: var(--transition);
+}
+
+.delete-btn:hover {
+    color: var(--danger-color);
+}
+
+/* Loading Skeleton */
+.loading-skeleton {
+    background: linear-gradient(90deg, var(--gray-200) 25%, var(--gray-300) 50%, var(--gray-200) 75%);
+    background-size: 200% 100%;
+    animation: loading 1.5s infinite;
+    height: 80px;
+    border-radius: var(--border-radius);
+}
+
+@keyframes loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .notifications-page {
+        padding: 10px;
+    }
+    
+    .notifications-header {
+        padding: 15px;
+    }
+    
+    .notification-filters {
+        flex-direction: column;
+    }
+    
+    .filter-btn {
+        flex: 1;
+    }
+}
