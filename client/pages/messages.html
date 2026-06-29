@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - ConnectSphere</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="../css/messages.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <a href="home.html"><h1>ConnectSphere</h1></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="home.html">Home</a></li>
+                <li><a href="explore.html">Explore</a></li>
+                <li><a href="messages.html" class="active">Messages</a></li>
+                <li><a href="notifications.html">Notifications</a></li>
+                <li><a href="profile.html">Profile</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container messages-container">
+        <!-- Conversations List -->
+        <aside class="conversations-list">
+            <div class="conversations-header">
+                <h2>Messages</h2>
+                <input type="text" id="searchConversations" placeholder="Search conversations..." class="search-input">
+            </div>
+            <div id="conversationsList" class="conversations">
+                <div class="loading-skeleton"></div>
+            </div>
+        </aside>
+
+        <!-- Chat View -->
+        <main class="chat-view">
+            <div id="noChatSelected" class="no-chat-selected">
+                <h2>Select a conversation to start messaging</h2>
+                <p>Choose from your conversations or start a new one</p>
+            </div>
+
+            <div id="chatWindow" class="chat-window" style="display: none;">
+                <div class="chat-header">
+                    <div class="chat-user-info">
+                        <img id="chatUserPic" src="https://via.placeholder.com/48" alt="User" class="chat-pic">
+                        <div>
+                            <h3 id="chatUserName">Loading...</h3>
+                            <p id="chatUserStatus" class="user-status">offline</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="messagesContainer" class="messages-container">
+                    <div class="loading-skeleton"></div>
+                </div>
+
+                <div class="message-input-area">
+                    <textarea 
+                        id="messageInput" 
+                        placeholder="Type a message..." 
+                        rows="2"
+                    ></textarea>
+                    <button id="sendBtn" class="btn btn-primary">Send</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+    <script src="../js/messages.js"></script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+/* Tablet and smaller screens */
+@media (max-width: 768px) {
+    .navbar-container {
+        flex-direction: column;
+        height: auto;
+        padding: 15px 20px;
+        gap: 15px;
+    }
+
+    .nav-links {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 40px 20px;
+    }
+
+    .hero-content h2 {
+        font-size: 32px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-card {
+        padding: 30px;
+    }
+
+    .auth-container {
+        max-width: 100%;
+    }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .navbar-brand h1 {
+        font-size: 20px;
+    }
+
+    .nav-links {
+        gap: 10px;
+    }
+
+    .nav-links a {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    .hero-content h2 {
+        font-size: 24px;
+    }
+
+    .hero-content p {
+        font-size: 16px;
+    }
+
+    .features h2,
+    .about h2 {
+        font-size: 24px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+
+    .auth-card {
+        padding: 20px;
+    }
+
+    .auth-header h1 {
+        font-size: 24px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        padding: 10px;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+
+    .toast {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        max-width: none;
+    }
+
+    .footer-links {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+/* Large screens */
+@media (min-width: 1200px) {
+    .container {
+        padding: 0 40px;
+    }
+}
+
+/* Print */
+@media print {
+    .navbar,
+    .footer,
+    .btn-secondary {
+        display: none;
+    }
+
+    body {
+        background-color: var(--white);
+    }
+}

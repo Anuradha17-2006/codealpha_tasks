@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - ConnectSphere</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body class="auth-page">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>ConnectSphere</h1>
+                <p>Create Your Account</p>
+            </div>
+
+            <form id="registerForm" class="auth-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input 
+                            type="text" 
+                            id="firstName" 
+                            name="firstName" 
+                            placeholder="First name"
+                            required
+                        >
+                        <span class="error-message" id="firstNameError"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input 
+                            type="text" 
+                            id="lastName" 
+                            name="lastName" 
+                            placeholder="Last name"
+                            required
+                        >
+                        <span class="error-message" id="lastNameError"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        placeholder="Enter your email"
+                        required
+                    >
+                    <span class="error-message" id="emailError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input 
+                        type="text" 
+                        id="username" 
+                        name="username" 
+                        placeholder="Choose a username"
+                        required
+                    >
+                    <small>3-30 characters, letters, numbers, hyphens, underscores</small>
+                    <span class="error-message" id="usernameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="password-input-wrapper">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            placeholder="Enter your password"
+                            required
+                        >
+                        <button type="button" class="toggle-password" id="togglePassword">
+                            <span>Show</span>
+                        </button>
+                    </div>
+                    <small>At least 8 characters, with uppercase, lowercase, and numbers</small>
+                    <span class="error-message" id="passwordError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input 
+                        type="password" 
+                        id="confirmPassword" 
+                        name="confirmPassword" 
+                        placeholder="Confirm your password"
+                        required
+                    >
+                    <span class="error-message" id="confirmPasswordError"></span>
+                </div>
+
+                <div class="form-group checkbox">
+                    <label for="agreeTerms">
+                        <input type="checkbox" id="agreeTerms" name="agreeTerms" required>
+                        <span>I agree to the Terms of Service and Privacy Policy</span>
+                    </label>
+                    <span class="error-message" id="agreeTermsError"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block" id="registerBtn">
+                    <span>Create Account</span>
+                    <span class="spinner" id="spinner"></span>
+                </button>
+            </form>
+
+            <div class="auth-divider">
+                <span>Already have an account?</span>
+            </div>
+
+            <a href="login.html" class="btn btn-secondary btn-block">
+                Login
+            </a>
+
+            <div id="toast" class="toast"></div>
+        </div>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+</body>
+</html>
