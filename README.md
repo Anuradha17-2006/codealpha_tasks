@@ -4,35 +4,7 @@ This repository contains the projects completed as part of my **CodeAlpha Intern
 
 ## 📂 Projects
 
-### 🚀 Task 2 – Projex: Project Management Platform
-
-A modern full-stack project management application built with **React, TypeScript, Node.js, Express, and MySQL**.
-
-**Key Features**
-
-* User Authentication (JWT)
-* Project & Team Management
-* Kanban Boards
-* Task Management
-* Role-Based Access Control
-* Real-time Notifications
-* Responsive UI
-
-**Tech Stack**
-
-* React 19
-* TypeScript
-* Node.js & Express
-* MySQL
-* Prisma ORM
-* Socket.IO
-* Docker
-
-📁 Project Folder: `CodeAlpha_Project management tool`
-
----
-
-### 🌐 Task 3 – ConnectSphere: Social Media Platform
+### 🌐 Task 2 – ConnectSphere: Social Media Platform
 
 A production-ready social media platform that enables users to connect, share content, and communicate in real time.
 
@@ -60,6 +32,33 @@ A production-ready social media platform that enables users to connect, share co
 
 ---
 
+### 🚀 Task 3 – Projex: Project Management Platform
+
+A modern full-stack project management application built with **React, TypeScript, Node.js, Express, and MySQL**.
+
+**Key Features**
+
+* User Authentication (JWT)
+* Project & Team Management
+* Kanban Boards
+* Task Management
+* Role-Based Access Control
+* Real-time Notifications
+* Responsive UI
+
+**Tech Stack**
+
+* React 19
+* TypeScript
+* Node.js & Express
+* MySQL
+* Prisma ORM
+* Socket.IO
+* Docker
+
+📁 Project Folder: `CodeAlpha_Project management tool`
+
+---
 ## 🛠 Technologies Used
 
 * HTML5
