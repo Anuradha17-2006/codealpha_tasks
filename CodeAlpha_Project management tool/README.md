@@ -291,19 +291,7 @@ Key models:
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🆘 Support
 
-For issues, questions, or suggestions:
-1. Check existing issues
-2. Create a new issue with detailed information
-3. Contact: support@projex.com
 
-## 📞 Contact
-
-- Website: https://projex.com
-- Email: hello@projex.com
-- Twitter: @projex_app
-
----
 
 **Happy Project Managing! 🎉**
