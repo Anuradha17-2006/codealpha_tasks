@@ -347,11 +347,6 @@ npm run lint
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🆘 Support
-
-- **Issues** - GitHub Issues
-- **Discussions** - GitHub Discussions
-- **Email** - support@connectsphere.com
 
 ## 🗺 Roadmap
 
@@ -363,12 +358,5 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - [ ] Machine learning recommendations
 - [ ] Cryptocurrency payments
 
-## 📞 Contact
-
-- **Email**: dev@connectsphere.com
-- **Twitter**: @connectsphere
-- **Website**: https://connectsphere.com
-
----
 
 Made with ❤️ by the ConnectSphere Team
